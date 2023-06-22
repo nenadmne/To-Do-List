@@ -8,7 +8,7 @@ import Background from "./UI/Background";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <TaskProvider>
-    <p className="link"> repository: <a href="https://github.com/nenadmne/Task"> https://github.com/nenadmne/Task </a> </p>
+    <p className="link"> repository: <a href="https://github.com/nenadmne/To-Do-List"> https://github.com/nenadmne/To-Do-List </a> </p>
     <Background />
     <App />
   </TaskProvider>
