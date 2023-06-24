@@ -6,7 +6,6 @@ import { useContext, Fragment } from "react";
 function App() {
   const taskCtx = useContext(TaskContext);
   const { items } = taskCtx;
-  console.log(items);
 
   return (
     <Fragment>

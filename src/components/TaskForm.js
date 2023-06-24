@@ -12,6 +12,7 @@ const TaskForm = () => {
   const {
     enteredValue: enteredName,
     isValid: nameIsValid,
+    hasError: nameHasError,
     onChangeHandler: changeNameHandler,
     onBlurHandler: blurNameHandler,
     resetHandler: resetName,
@@ -20,6 +21,7 @@ const TaskForm = () => {
   const {
     enteredValue: enteredDescription,
     isValid: descriptionIsValid,
+    hasError: descriptionHasError,
     onChangeHandler: changeDescriptionHandler,
     onBlurHandler: blurDescriptionHandler,
     resetHandler: resetDescription,
@@ -28,12 +30,11 @@ const TaskForm = () => {
   const {
     enteredValue: enteredDate,
     isValid: dateIsValid,
+    hasError: dateHasError,
     onChangeHandler: changeDateHandler,
     onBlurHandler: blurDateHandler,
     resetHandler: resetDate,
-  } = useInput(
-    (enteredDate) => enteredDate !== null && enteredDate !== undefined
-  );
+  } = useInput((enteredDate) => +enteredDate.trim().length === 10);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -57,23 +58,28 @@ const TaskForm = () => {
     resetDescription();
     resetName();
     resetDate();
-    setFormIsCanceled(true);
-  };
-
-  const clickHandler = () => {
     setFormIsCanceled(false);
   };
 
+  const clickHandler = () => {
+    setFormIsCanceled(true);
+  };
+
   const invalidNameClass =
-    !nameIsValid && formIsSubmitted && !formIsCanceled ? "invalid-name" : "";
+      nameHasError || (!nameIsValid && formIsSubmitted && formIsCanceled)
+        ? "invalid-name"
+        : "";
 
   const invalidDescriptionClass =
-    !descriptionIsValid && formIsSubmitted && !formIsCanceled
+    descriptionHasError ||
+    (!descriptionIsValid && formIsSubmitted && formIsCanceled)
       ? "invalid-name"
       : "";
 
   const invalidDateClass =
-    !dateIsValid && formIsSubmitted && !formIsCanceled ? "invalid-name" : "";
+    dateHasError || (!dateIsValid && formIsSubmitted && formIsCanceled)
+      ? "invalid-name"
+      : "";
 
   return (
     <Card className="form-wrapper">
@@ -101,7 +107,9 @@ const TaskForm = () => {
             onBlur={blurDescriptionHandler}
             value={enteredDescription}
           />
-          {invalidDescriptionClass && <p> Please enter a valid task name! </p>}
+          {invalidDescriptionClass && (
+            <p> Please enter a valid task description! </p>
+          )}
         </div>
 
         <div>
@@ -119,8 +127,12 @@ const TaskForm = () => {
           {invalidDateClass && <p> Please select a valid date! </p>}
         </div>
         <div className="button-div">
-          <button className='submit-button' onClick={clickHandler}> Submit </button>
-          <button className='cancel-button' onClick={cancelHandler}> Cancel </button>
+          <button className="submit-button" onClick={clickHandler}>
+            Submit
+          </button>
+          <button className="cancel-button" onClick={cancelHandler}>
+            Cancel
+          </button>
         </div>
       </form>
     </Card>
